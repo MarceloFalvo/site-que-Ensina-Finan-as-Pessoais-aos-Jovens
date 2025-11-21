@@ -1,0 +1,89 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Login • MF Invest</title>
+
+<link rel="stylesheet" href="login.css">
+</head>
+
+<!-- ADICIONE ESTA CLASSE PARA O CSS FUNCIONAR -->
+<body class="login-page">
+
+<div class="container">
+
+    <!-- LOGIN -->
+    <div class="form-box" id="loginBox">
+        <h2>Entrar</h2>
+        <form onsubmit="loginUser(event)">
+            <input type="email" id="loginEmail" placeholder="Email" required />
+            <input type="password" placeholder="Senha" required />
+            <button type="submit">Login</button>
+        </form>
+        <p class="toggle">Não tem conta? <span onclick="showRegister()">Cadastre-se</span></p>
+    </div>
+
+    <!-- CADASTRO -->
+    <div class="form-box hidden" id="registerBox">
+        <h2>Criar Conta</h2>
+        <form onsubmit="registerUser(event)">
+            <input type="text" id="registerName" placeholder="Nome" required />
+            <input type="email" id="registerEmail" placeholder="Email" required />
+            <input type="password" placeholder="Senha" required />
+            <button type="submit">Cadastrar</button>
+        </form>
+        <p class="toggle">Já possui conta? <span onclick="showLogin()">Entrar</span></p>
+    </div>
+
+</div>
+
+
+<script>
+// Alternar Login ⇄ Cadastro
+function showRegister() {
+    loginBox.classList.add("hidden");
+    registerBox.classList.remove("hidden");
+}
+function showLogin() {
+    registerBox.classList.add("hidden");
+    loginBox.classList.remove("hidden");
+}
+
+/* Registro */
+function registerUser(event) {
+    event.preventDefault();
+
+    const name = document.getElementById("registerName").value;
+    const email = document.getElementById("registerEmail").value;
+
+    localStorage.setItem("userName", name);
+    localStorage.setItem("userEmail", email);
+
+    window.location.href = "index.html";
+}
+
+/* Login */
+function loginUser(event) {
+    event.preventDefault();
+
+    const emailLogin = document.getElementById("loginEmail").value;
+    const emailSaved = localStorage.getItem("userEmail");
+
+    if (emailLogin !== emailSaved) {
+        alert("Email não encontrado. Cadastre-se!");
+        return;
+    }
+
+    window.location.href = "index.html";
+}
+
+// impede entrar no login se já estiver logado
+if (localStorage.getItem("userName")) {
+    window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>
